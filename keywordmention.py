@@ -42,8 +42,7 @@ class ID(Middleware):
 
         '''全局关键词'''
         keywords_all = {
-            "拍我并请他喝冰美式": 9,
-            "召唤Maaa": 6,
+            "拍我并拍拍手": 6,
         }
 
         if message.type == MsgType.Text:
