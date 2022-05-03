@@ -15,3 +15,5 @@ middlewares:
 ```
 
 3、在`keywordmention.py`中`keywords_group, keywords_private, keywords_all`字典中按照要求添加关键词
+
+提示：可用于实现提示拍一拍、红包消息等
