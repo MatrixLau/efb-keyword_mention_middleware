@@ -1,5 +1,5 @@
 # efb-keyword_mention_middleware
-设置在所有对话、群组、私聊中的关键词
+设置在所有对话、群组、私聊中的关键词\n
 关键词一接收，就会在Telegram艾特你
 
 使用方法：
