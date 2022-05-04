@@ -7,7 +7,7 @@ from ehforwarderbot.types import ModuleID, InstanceID
 
 class MatrixLauMiddleware(Middleware):
     """
-    KeywordMention Middleware
+    EFB Middleware - KeywordMention Middleware
     """
 
     middleware_id: ModuleID = ModuleID("keywordmention.MatrixLauMiddleware")
