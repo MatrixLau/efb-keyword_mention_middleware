@@ -11,7 +11,7 @@
 
 ```
 middlewares:
-  - keywordmention.ID
+  - keywordmention.MatrixLauMiddleware
 ```
 
 3、在`keywordmention.py`中`keywords_group, keywords_private, keywords_all`字典中按照要求添加关键词
