@@ -5,14 +5,14 @@ from ehforwarderbot import Middleware, Message
 from ehforwarderbot.message import MsgType, Substitutions
 from ehforwarderbot.types import ModuleID, InstanceID
 
-class ID(Middleware):
+class MatrixLauMiddleware(Middleware):
     """
     KeywordMention Middleware
     """
 
-    middleware_id: ModuleID = ModuleID("matrixlau.keywordmention")
+    middleware_id: ModuleID = ModuleID("keywordmention.MatrixLauMiddleware")
     middleware_name: str = "KeywordMention Middleware"
-    __version__: str = '2.0.0'
+    __version__: str = '2.1.0'
 
     def __init__(self, instance_id: Optional[InstanceID] = None):
         super().__init__(instance_id)
