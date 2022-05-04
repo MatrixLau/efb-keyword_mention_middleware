@@ -1,7 +1,7 @@
 # coding: utf-8
 from typing import Optional
 
-from ehforwarderbot import Middleware, Message, coordinator, Channel
+from ehforwarderbot import Middleware, Message
 from ehforwarderbot.message import MsgType, Substitutions
 from ehforwarderbot.types import ModuleID, InstanceID
 
