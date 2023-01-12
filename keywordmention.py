@@ -45,6 +45,17 @@ class MatrixLauMiddleware(Middleware):
             "拍我并拍拍手": 6,
         }
 
+        '''
+        公众号：丰巢智能柜
+
+        新增快递消息通知开关 receive_delivery_notify (默认开启)
+
+        待加入寄件消息通知
+        '''
+        keywords_fengchao = {
+            "receive_delivery_notify": True
+        }
+
         if message.type == MsgType.Text:
             if "Group" in type(message.chat).__name__:
                 keywords = {**keywords_group, **keywords_all}
@@ -63,5 +74,16 @@ class MatrixLauMiddleware(Middleware):
                         if not isinstance(message.substitutions, Substitutions): 
                             message.substitutions = Substitutions({})
                             message.substitutions[(x, x + value)] = message.chat
+
+
+        if "丰巢智能柜" in message.chat.name:
+            if "配送公司" in getattr(message.attributes, 'description') and \
+                "运单号" in getattr(message.attributes, 'description') and \
+                keywords_fengchao.get("receive_delivery_notify"):
+                message.text = '🔊 ' + message.text
+                message.substitutions = Substitutions({
+                    (0, 1): message.chat.self
+                })
+
         return message
             
