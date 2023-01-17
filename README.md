@@ -18,4 +18,4 @@ middlewares:
 
 提示：可用于实现提示拍一拍、红包消息等
 
-更新已加入***丰巢智能柜的快递信息通知***，默认打开，可在`keywordmention.py`中`keyword_fengchao`中设置开关
+更新已加入***丰巢的快递信息通知***，默认打开，可在`keywordmention.py`中`keyword_fengchao`中设置开关
