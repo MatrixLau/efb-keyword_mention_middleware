@@ -46,7 +46,7 @@ class MatrixLauMiddleware(Middleware):
         }
 
         '''
-        公众号：丰巢智能柜
+        公众号：丰巢
 
         新增快递消息通知开关 receive_delivery_notify (默认开启)
 
@@ -76,7 +76,7 @@ class MatrixLauMiddleware(Middleware):
                             message.substitutions[(x, x + value)] = message.chat
 
 
-        if "丰巢智能柜" in message.chat.name:
+        if "丰巢" in message.chat.name:
             if "配送公司" in getattr(message.attributes, 'description') and \
                 "运单号" in getattr(message.attributes, 'description') and \
                 keywords_fengchao.get("receive_delivery_notify"):
