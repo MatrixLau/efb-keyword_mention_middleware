@@ -17,3 +17,5 @@ middlewares:
 3、在`keywordmention.py`中`keywords_group, keywords_private, keywords_all`字典中按照要求添加关键词
 
 提示：可用于实现提示拍一拍、红包消息等
+
+更新已加入***丰巢智能柜的快递信息通知***，默认打开，可在`keywordmention.py`中`keyword_fengchao`中设置开关
