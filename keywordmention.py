@@ -12,7 +12,7 @@ class MatrixLauMiddleware(Middleware):
 
     middleware_id: ModuleID = ModuleID("keywordmention.MatrixLauMiddleware")
     middleware_name: str = "KeywordMention Middleware"
-    __version__: str = '2.1.0'
+    __version__: str = '2.2.0'
 
     def __init__(self, instance_id: Optional[InstanceID] = None):
         super().__init__(instance_id)
@@ -26,6 +26,22 @@ class MatrixLauMiddleware(Middleware):
         
         注意：数字设置长度最好不要超过关键词长度，否则有可能造成bug
         '''
+
+        '''
+        被回复对话关键词
+        用于解决那些有关键词但被回复导致重复显示艾特的情况
+
+        replied_chat_duplicate_switch为开关
+        replied_chat_keyword为关键词
+        '''
+        replied_chat_duplicate_switch = True
+        replied_chat_keyword = "- - - - - - - - - - - - - - -"
+
+
+        '''拍一拍关键词'''
+        keywords_pat = {
+            "拍我并拍拍手": 6,
+        }
 
         '''群组关键词'''
         keywords_group = {
@@ -42,7 +58,7 @@ class MatrixLauMiddleware(Middleware):
 
         '''全局关键词'''
         keywords_all = {
-            "拍我并拍拍手": 6,
+            "召唤Matrix": 6,
         }
 
         '''
@@ -58,23 +74,34 @@ class MatrixLauMiddleware(Middleware):
 
         if message.type == MsgType.Text:
             if "Group" in type(message.chat).__name__:
-                keywords = {**keywords_group, **keywords_all}
-                for key, value in keywords.items():
-                    if key in message.text:
-                        x = message.text.find(key)
-                        if not isinstance(message.substitutions, Substitutions): 
-                            message.substitutions = Substitutions({})
-                            message.substitutions[(x, x + value)] = message.chat
+                if replied_chat_duplicate_switch and replied_chat_keyword in message.text:
+                    message.substitutions = None
+                else:
+                    if "SystemChatMember" in type(message.author).__name__:
+                        keywords = keywords_pat
+                    else:
+                        keywords = {**keywords_group, **keywords_all}
+                    for key, value in keywords.items():
+                        if key in message.text:
+                            x = message.text.find(key)
+                            if not isinstance(message.substitutions, Substitutions): 
+                                message.substitutions = Substitutions({})
+                                message.substitutions[(x, x + value)] = message.chat
 
             if "Private" in type(message.chat).__name__:
-                keywords = {**keywords_private, **keywords_all}
-                for key, value in keywords.items():
-                    if key in message.text:
-                        x = message.text.find(key)
-                        if not isinstance(message.substitutions, Substitutions): 
-                            message.substitutions = Substitutions({})
-                            message.substitutions[(x, x + value)] = message.chat
-
+                if replied_chat_duplicate_switch and replied_chat_keyword in message.text:
+                    message.substitutions = None
+                else:
+                    if "SystemChatMember" in type(message.author).__name__:
+                        keywords = keywords_pat
+                    else:
+                        keywords = {**keywords_private, **keywords_all}
+                    for key, value in keywords.items():
+                        if key in message.text:
+                            x = message.text.find(key)
+                            if not isinstance(message.substitutions, Substitutions): 
+                                message.substitutions = Substitutions({})
+                                message.substitutions[(x, x + value)] = message.chat
 
         if "丰巢" in message.chat.name:
             if "配送公司" in getattr(message.attributes, 'description') and \
