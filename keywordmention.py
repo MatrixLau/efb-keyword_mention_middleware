@@ -72,6 +72,17 @@ class MatrixLauMiddleware(Middleware):
             "receive_delivery_notify": True
         }
 
+        '''
+        公众号：捷佳充电（自行添加对应，一个公众号对应一个关键词，多关键词用|分割）
+
+        新增充电公众号消息通知开关 receive_charge_notify (默认开启)
+
+        '''
+        receive_charge_notify = True
+
+        charge_chanels = ["捷佳充电"]
+        charge_keywords = ["充电开始|充电结束"]
+
         if message.type == MsgType.Text:
             if "Group" in type(message.chat).__name__:
                 if replied_chat_duplicate_switch and replied_chat_keyword in message.text:
@@ -104,13 +115,28 @@ class MatrixLauMiddleware(Middleware):
                                 message.substitutions[(x, x + value)] = message.chat
 
         if "丰巢" in message.chat.name:
-            if "配送公司" in getattr(message.attributes, 'description') and \
+            if "取件码" in getattr(message.attributes, 'description') and \
                 "运单号" in getattr(message.attributes, 'description') and \
                 keywords_fengchao.get("receive_delivery_notify"):
                 message.text = '🔊 ' + message.text
                 message.substitutions = Substitutions({
                     (0, 1): message.chat.self
                 })
+
+        # 充电公众号 
+        if receive_charge_notify:
+            # 遍历匹配
+            chargeChanelIndex = 0
+            while chargeChanelIndex < len(charge_chanels):
+                if charge_chanels[chargeChanelIndex] in message.chat.name:
+                    keywords = charge_keywords[chargeChanelIndex].split("|")
+                    for key in keywords:
+                        if key in getattr(message.attributes, 'description'):
+                            message.text = '🔊 ' + message.text
+                            message.substitutions = Substitutions({
+                                (0, 1): message.chat.self
+                            })
+                chargeChanelIndex += 1
 
         return message
             
