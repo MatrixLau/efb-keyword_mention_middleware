@@ -131,7 +131,8 @@ class MatrixLauMiddleware(Middleware):
                 if charge_chanels[chargeChanelIndex] in message.chat.name:
                     keywords = charge_keywords[chargeChanelIndex].split("|")
                     for key in keywords:
-                        if key in getattr(message.attributes, 'description'):
+                        if key in getattr(message.attributes, 'description') or \
+                            key in getattr(message.attributes, 'title'):
                             message.text = '🔊 ' + message.text
                             message.substitutions = Substitutions({
                                 (0, 1): message.chat.self
